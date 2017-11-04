@@ -79,4 +79,12 @@ interface SingleKeyModelRepositoryInterface extends BaseRepositoryInterface
      * @return bool
      */
     public function delete($model);
+
+    /**
+     * Remove a soft deleted model from the database
+     * @param \LaravelRocket\Foundation\Models\Base $model
+     *
+     * @return bool
+     */
+    public function forceDelete($model);
 }

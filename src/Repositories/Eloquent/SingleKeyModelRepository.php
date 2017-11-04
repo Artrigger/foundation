@@ -144,6 +144,11 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         return $model->delete();
     }
 
+    public function forceDelete($model)
+    {
+        return $model->forceDelete();
+    }
+
     public function __call($method, $parameters)
     {
         if (Str::startsWith($method, 'getBy')) {
