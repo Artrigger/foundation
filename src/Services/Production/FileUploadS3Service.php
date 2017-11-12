@@ -12,6 +12,11 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
         $bucket = $this->decideBucket(array_get($attributes, 'buckets', $this->getDefaultBucket()));
         $acl    = array_get($attributes, 'acl', 'public-read');
 
+        $keyPrefix = array_get($attributes, 'key_prefix', '');
+        if ($keyPrefix) {
+            $filename = $keyPrefix . '/' . $filename;
+        }
+
         $client = $this->getS3Client($region);
 
         $url     = '';
