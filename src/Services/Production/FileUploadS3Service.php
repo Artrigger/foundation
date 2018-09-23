@@ -106,4 +106,29 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
             'success' => $success,
         ];
     }
+
+    public function deleteMultipleObjects($attributes)
+    {
+        $region = array_get($attributes, 'region', config('file.storage.s3.region'));
+        $bucket = array_get($attributes, 'bucket', $this->getDefaultBucket());
+        $keys   = array_get($attributes, 'keys', []);
+
+        $success = false;
+
+        if (count($keys) > 0) {
+            $client = $this->getS3Client($region);
+            $client->deleteObjects([
+                'Bucket'  => $bucket,
+                'Delete' => [
+                    'Objects' => array_map(function ($key) {
+                        return ['Key' => $key];
+                    }, $keys)
+                ],
+            ]);
+        }
+
+        return [
+            'success' => $success,
+        ];
+    }
 }
